@@ -7,7 +7,7 @@ import examples from "../static/examples";
 const availableLanguages = ["python", "javascript"];
 
 const Editors = () => {
-    const [input, setInput] = useState<string | undefined>(">");
+    const [input, setInput] = useState<string | undefined>("");
     const [answer, setAnswer] = useState<string | undefined>(">");
     const [currentLang, setCurrentLang] = useState<string>("python");
     const [code, setCode] = useState<string | undefined>(examples["python"]);
@@ -21,8 +21,9 @@ const Editors = () => {
             method: "POST",
             body: JSON.stringify({ code, input }),
         }).then((res) => res.json());
-        const { output = "" } = apiResponse;
-
+        const { output = "" } = apiResponse || {};
+        console.log(apiResponse);
+        debugger;
         if (output) {
             setAnswer(output || "Failed to fetch the output");
         } else {

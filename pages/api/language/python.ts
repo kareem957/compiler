@@ -1,7 +1,9 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { isEmpty } from "lodash";
 
 import type { NextApiRequest, NextApiResponse } from "next";
+
+type ServerError = { errorMessage: string };
 
 const compilePythonWithOutInput = async (req: NextApiRequest, res: NextApiResponse) => {
     const { code = "", input = "" } = JSON.parse(req.body);
@@ -20,9 +22,12 @@ const compilePythonWithOutInput = async (req: NextApiRequest, res: NextApiRespon
         const { data } = response;
         return res.status(200).json(data);
     } catch (err) {
-        if (err instanceof Error) {
-            const { data } = err.response;
-            return res.status(500).json(data);
+        if (axios.isAxiosError(err)) {
+            const serverError = err as AxiosError<ServerError>;
+            console.log(serverError);
+            if (serverError && serverError.response) {
+                return res.status(500).json(serverError.response.data);
+            }
         }
     }
 };
