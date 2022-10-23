@@ -1,33 +1,55 @@
+import { useState } from "react";
 import Editor from "@monaco-editor/react";
 import { ClipLoader as Loader } from "react-spinners";
-import { useState } from 'react';
+
+import examples from "../static/examples";
 
 const availableLanguages = ["python", "javascript"];
 
 const Editors = () => {
-    const [code, setCode] = useState<string | undefined>("");
-    const [input, setInput] = useState<string | undefined>("");
-    const [answer, setAnswer] = useState<string | undefined>("");
+    const [input, setInput] = useState<string | undefined>(">");
+    const [answer, setAnswer] = useState<string | undefined>(">");
     const [currentLang, setCurrentLang] = useState<string>("python");
+    const [code, setCode] = useState<string | undefined>(examples["python"]);
+
     const handleEditorDidMount = (value: string | undefined) => {
         setCode(value);
-    }
+    };
+
     const fetchRes = async () => {
-       const { response } = await fetch(`/api/language/${currentLang}`, {method:"POST", body: JSON.stringify({code, input})}).then(res => res.json())
-        setAnswer(response?.output || "")
-    }
+        const apiResponse = await fetch(`/api/language/${currentLang}`, {
+            method: "POST",
+            body: JSON.stringify({ code, input }),
+        }).then((res) => res.json());
+        const { output = "" } = apiResponse;
+
+        if (output) {
+            setAnswer(output || "Failed to fetch the output");
+        } else {
+            const stderr = apiResponse.stderr.trim().replace(/".*?"/, "<string>");
+            setAnswer(stderr || "Error in the code");
+        }
+    };
+
     const handleInput = (value: string | undefined) => {
         setInput(value);
-    }
+    };
     return (
         <>
             <section className="flex w-full m-1 gap-2">
-                <select onChange={(e)=> setCurrentLang(e.target.value)}>
-                    {availableLanguages?.map((language, idx) => <option key={idx} value={language}>{language.toLocaleUpperCase()}</option>)}
+                <select onChange={(e) => setCurrentLang(e.target.value)}>
+                    {availableLanguages?.map((language, idx) => (
+                        <option key={idx} value={language}>
+                            {language.toLocaleUpperCase()}
+                        </option>
+                    ))}
                 </select>
-                <button className="bg-green-500 text-white" onClick={fetchRes}>Run</button>
+                <button className="bg-green-500 text-white" onClick={fetchRes}>
+                    Run
+                </button>
             </section>
-            <section className='w-full grid grid-cols-1 md:grid-cols-2 gap-2' style={{height: "80vh"}}>
+
+            <section className="w-full grid grid-cols-1 md:grid-cols-2 gap-2" style={{ height: "80vh" }}>
                 <Editor
                     theme="vs-dark"
                     language={currentLang}
@@ -51,8 +73,8 @@ const Editors = () => {
                         <Editor
                             theme="vs-dark"
                             height={"100%"}
-                            options= {{
-                                readOnly: true
+                            options={{
+                                readOnly: true,
                             }}
                             language="text"
                             loading={<Loader />}
@@ -62,8 +84,7 @@ const Editors = () => {
                 </section>
             </section>
         </>
-    )
-
-}
+    );
+};
 
 export default Editors;
