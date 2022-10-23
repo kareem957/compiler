@@ -1,11 +1,11 @@
-import axios, { AxiosError } from "axios";
 import { isEmpty } from "lodash";
+import axios, { AxiosError } from "axios";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type ServerError = { errorMessage: string };
 
-const compilePythonWithOutInput = async (req: NextApiRequest, res: NextApiResponse) => {
+const compilePythonCode = async (req: NextApiRequest, res: NextApiResponse) => {
     const { code = "", input = "" } = JSON.parse(req.body);
     let url = "https://online-compiler-hwqk.onrender.com/api/python";
     type inputPayload = { [key: string]: string | number | number[] };
@@ -32,4 +32,4 @@ const compilePythonWithOutInput = async (req: NextApiRequest, res: NextApiRespon
     }
 };
 
-export default compilePythonWithOutInput;
+export default compilePythonCode;

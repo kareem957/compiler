@@ -23,7 +23,6 @@ const Editors = () => {
         }).then((res) => res.json());
         const { output = "" } = apiResponse || {};
         console.log(apiResponse);
-        debugger;
         if (output) {
             setAnswer(output || "Failed to fetch the output");
         } else {
@@ -37,7 +36,7 @@ const Editors = () => {
     };
     return (
         <>
-            <section className="flex w-full m-1 gap-2">
+            <section className="flex w-full m-2 gap-2">
                 <select onChange={(e) => setCurrentLang(e.target.value)}>
                     {availableLanguages?.map((language, idx) => (
                         <option key={idx} value={language}>
@@ -45,7 +44,7 @@ const Editors = () => {
                         </option>
                     ))}
                 </select>
-                <button className="bg-green-500 text-white" onClick={fetchRes}>
+                <button className="bg-green-500 text-white ml-auto" onClick={fetchRes}>
                     Run
                 </button>
             </section>
