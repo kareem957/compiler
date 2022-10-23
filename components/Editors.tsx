@@ -4,7 +4,7 @@ import { ClipLoader as Loader } from "react-spinners";
 
 import examples from "../static/examples";
 
-const availableLanguages = ["python", "javascript"];
+const availableLanguages = ["python", "java", "javascript"];
 
 const Editors = () => {
     const [input, setInput] = useState<string | undefined>("");
