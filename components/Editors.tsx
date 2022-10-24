@@ -10,8 +10,7 @@ const Editors = () => {
     const [input, setInput] = useState<string | undefined>("");
     const [answer, setAnswer] = useState<string | undefined>(">");
     const [currentLang, setCurrentLang] = useState<string>("python");
-    const [code, setCode] = useState<string | undefined>(examples["python"]);
-
+    const [code, setCode] = useState<string | undefined>(examples[currentLang]);
     const handleEditorDidMount = (value: string | undefined) => {
         setCode(value);
     };
@@ -37,7 +36,12 @@ const Editors = () => {
     return (
         <>
             <section className="flex w-full m-2 gap-2">
-                <select onChange={(e) => setCurrentLang(e.target.value)}>
+                <select
+                    onChange={(e) => {
+                        setCurrentLang(e.target.value);
+                        setCode(examples[e.target.value]);
+                    }}
+                >
                     {availableLanguages?.map((language, idx) => (
                         <option key={idx} value={language}>
                             {language.toLocaleUpperCase()}
