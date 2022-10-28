@@ -4,7 +4,7 @@ import { ClipLoader as Loader } from "react-spinners";
 
 import examples from "../static/examples";
 
-const availableLanguages = ["python", "java", "javascript"];
+const availableLanguages = ["python", "javascript"];
 
 const Editors = () => {
     const [input, setInput] = useState<string | undefined>("");
@@ -62,7 +62,17 @@ const Editors = () => {
                     value={code}
                     onChange={handleEditorDidMount}
                 />
-                <section className="grid grid-rows-2 gap-1">
+                <Editor
+                    theme="vs-dark"
+                    height={"100%"}
+                    options={{
+                        readOnly: true,
+                    }}
+                    language="text"
+                    loading={<Loader />}
+                    value={answer}
+                />
+                {/* <section className="grid grid-rows-2 gap-1">
                     <section>
                         <Editor
                             theme="vs-dark"
@@ -85,7 +95,7 @@ const Editors = () => {
                             value={answer}
                         />
                     </section>
-                </section>
+                </section> */}
             </section>
         </>
     );
