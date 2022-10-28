@@ -2,11 +2,7 @@
 const rTabs = (str: any) => str.trim().replace(/^ {4}/gm, "");
 
 const examples: { [key: string]: any } = {
-    javascript: `
-    // @monaco-editor/react is Monaco editor wrapper for painless integration with React
-    // applications without need of webpack (or other module bundler)
-    // configuration files.
-    
+    javascript: rTabs(`    
     let sum = 0;
     const num = 10;
     let temp = num;
@@ -17,7 +13,7 @@ const examples: { [key: string]: any } = {
     }
     console.log("The sum of first "+num+" Natural numbers:- "+sum);
      
-  `,
+  `),
     python: rTabs(`
     # Sum of natural numbers up to num
 

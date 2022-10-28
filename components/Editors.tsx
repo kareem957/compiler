@@ -48,9 +48,11 @@ const Editors = () => {
                         </option>
                     ))}
                 </select>
-                <button className="bg-green-500 text-white ml-auto" onClick={fetchRes}>
-                    Run
-                </button>
+                {code && (
+                    <button className="bg-green-500 text-white ml-auto" onClick={fetchRes}>
+                        Run
+                    </button>
+                )}
             </section>
 
             <section className="w-full grid grid-cols-1 md:grid-cols-2 gap-2" style={{ height: "80vh" }}>
